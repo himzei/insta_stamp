@@ -7,12 +7,15 @@ from bs4 import BeautifulSoup
 
 class Crawling(APIView): 
     
-    def get(self, request): 
-        keyword = "존잼"
+    def post(self, request): 
+        url = request.data.get("url")
+        stamp = False
+
+        keyword = ["코딩", "대광로제비앙"]
         pattern = '#([0-9a-zA-Z가-힣]*)'
         hash_w = re.compile(pattern)
 
-        stamp_url = "https://www.instagram.com/p/CY3kQa7vmdu/"
+        stamp_url = url
         url = f"{stamp_url}?__a=1" # 크롤링할 게시물 URL
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -23,12 +26,10 @@ class Crawling(APIView):
         userid = data.split("on Instagram")[0].strip()
         print("userid :", userid)
 
-        for tag in hashtags: 
-            if keyword == tag: 
-                stamp = True
-            else:
-                stamp = False
+        if any(x in hashtags for x in keyword): 
+            stamp = True
+        
 
-        return Response({"ok": True, "userid": userid, "해시태그 인증유무": stamp})
+        return Response({"ok": True, "stamp": stamp, "userid": userid})
 
 
