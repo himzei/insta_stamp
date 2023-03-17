@@ -12,7 +12,7 @@ class Crawling(APIView):
         url = request.data.get("url")
         stamp = False
 
-        keyword = ["코딩", "대광로제비앙"]
+        keyword = ["스패이스에듀", "스탬프인증"]
         pattern = '#([0-9a-zA-Z가-힣]*)'
         hash_w = re.compile(pattern)
 
