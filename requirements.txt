@@ -7,6 +7,10 @@ charset-normalizer==3.1.0
 Django==4.1.7
 django-cors-headers==3.14.0
 django-environ==0.10.0
+django-mssql==1.8
+django-mssql-backend==2.8.1
+django-odbc==0.1.1
+django-pymssql==1.7.1
 djangorestframework==3.14.0
 exceptiongroup==1.1.0
 gunicorn==20.1.0
@@ -14,9 +18,12 @@ h11==0.14.0
 idna==3.4
 insta-scrape==2.1.2
 lxml==4.9.2
+mssql-django==1.2
 outcome==1.2.0
 packaging==23.0
 Pillow==9.4.0
+pymssql==2.2.7
+pyodbc==4.0.35
 PySocks==1.7.1
 python-dotenv==1.0.0
 pytz==2022.7.1
