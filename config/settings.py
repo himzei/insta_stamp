@@ -25,20 +25,22 @@ environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+
 def get_env_variable(var_name):
-  try:
-    return os.environ[var_name]
-  except KeyError:
-    error_msg = 'Set the {} environment variable'.format(var_name)
-    raise ImproperlyConfigured(error_msg)
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(var_name)
+        raise ImproperlyConfigured(error_msg)
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_env_variable('DJANGO_SECRET')
-print(SECRET_KEY)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-# Production Mode 
+# Production Mode
 DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
@@ -52,7 +54,8 @@ THIRD_PARTY_APPS = [
 ]
 
 CUSTOM_APPS = [
-    "insta_stamp.apps.InstaStampConfig"
+    "insta_stamp.apps.InstaStampConfig", 
+    "users.apps.UsersConfig", 
 ]
 
 SYSTEM_APPS = [
@@ -102,10 +105,23 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#       "ENGINE" : "django.db.backends.sqlite3", 
+#       "NAME" : os.path.join(BASE_DIR, "db.sqlite3"),
+#     }
+# }
+
+
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": get_env_variable('DB_ENGINE'),
+        "NAME": get_env_variable('DB_NAME'),
+        "USER": get_env_variable('DB_USER'),
+        "PASSWORD": get_env_variable('DB_PASSWORD'),
+        "HOST": get_env_variable('DB_HOST'),
+        
     }
 }
 
@@ -158,3 +174,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000"]
+
+
+# Auth 
+# Abstract User를 사용하기 위한 설정
+AUTH_USER_MODEL = "users.User"
